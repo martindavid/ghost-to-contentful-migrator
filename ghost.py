@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 from typing import List
 from models.ghost import Post
 
@@ -39,6 +40,14 @@ class GhostAPI:
         posts = []
         for post in json_resp:
             parsed_obj = Post.parse_obj(post)
+            parsed_obj.images = self.__parse_images(parsed_obj.html)
             posts.append(parsed_obj)
 
         return posts
+
+    def __parse_images(self, post_html: str) -> List[str]:
+        soup = BeautifulSoup(post_html, 'html.parser')
+        images = soup.findAll('img')
+        images_src = [image['src'] for image in images]
+
+        return images_src
