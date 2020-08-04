@@ -9,7 +9,7 @@ class GhostAPI:
         self.api_key = api_key
 
     def fetch_posts(self) -> List[Post]:
-        params = {'key': self.api_key, 'page': 1}
+        params = {'key': self.api_key, 'page': 1, 'include': 'authors,tags'}
         keep_fetch = True
         posts = []
         while (keep_fetch):
